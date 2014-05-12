@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int="http://www.springframework.org/schema/integration"
 	xmlns:int-http="http://www.springframework.org/schema/integration/http"
 	xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
 	xsi:schemaLocation="http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
@@ -9,24 +8,23 @@
 		http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
 		http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd">
 
-	<import resource="rabbit-context.xml"/>
-	<int:inbound-channel-adapter channel="quakeinfotrigger" expression="''">
+	<import resource="rabbit-context.xml" />
+		<int:inbound-channel-adapter channel="issinfotrigger"
+		expression="''">
 		<int:poller fixed-delay="60000"></int:poller>
 	</int:inbound-channel-adapter>
-	
-	<int:channel id="quakeinfo"/>
 
-	<int:channel id="quakeinfotrigger"></int:channel>
+	<int:channel id="issinfo" />
 
-	<int-http:outbound-gateway id="quakerHttpGateway"
-	    request-channel="quakeinfotrigger"
-	    url="http://earthquake.usgs.gov/earthquakes/feed/geojson/all/hour"
-	    http-method="GET"
-	    expected-response-type="java.lang.String"
-	    charset="UTF-8"
-	    reply-channel="quakeinfo">
+	<int:channel id="issinfotrigger"></int:channel>
+
+	<int-http:outbound-gateway id="issHttpGateway"
+		request-channel="issinfotrigger" url="https://api.wheretheiss.at/v1/satellites/25544"
+		auto-startup="true" http-method="GET" expected-response-type="java.lang.String"
+		charset="UTF-8" reply-channel="issinfo">
 	</int-http:outbound-gateway>
 
-	<int-amqp:outbound-channel-adapter amqp-template="amqpTemplate" channel="quakeinfo" />
+	<int-amqp:outbound-channel-adapter
+		amqp-template="amqpTemplate" channel="issinfo" />
 
 </beans>
