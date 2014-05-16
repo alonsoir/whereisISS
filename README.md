@@ -1,7 +1,4 @@
 whereisISS-spring-websockets project.
-
-https://api.wheretheiss.at/v1/satellites/25544 pregunta cada segundo incluso
-
 ====================
 
 Sample application demoing Spring Websocket support with spring integration and rabbitmq with stomp support
@@ -24,3 +21,4 @@ mvn spring-boot:run
 
 Probably you are going to need import the cert file from https server, 
 see http://www.mkyong.com/webservices/jax-ws/suncertpathbuilderexception-unable-to-find-valid-certification-path-to-requested-target/
+
